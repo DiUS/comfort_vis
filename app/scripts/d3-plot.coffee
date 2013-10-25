@@ -72,4 +72,4 @@ plotit = (f) ->
       redraw()
     , t+100
 
-plotit f for f in feeds
+# plotit f for f in feeds

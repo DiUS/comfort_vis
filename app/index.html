@@ -11,6 +11,7 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="components/nvd3/nv.d3.css">
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
@@ -31,6 +32,8 @@
             <div id="sound"></div>
             <h4>Gas</h4>
             <div id="gas"></div>
+
+            <div id="sparkline"><svg></svg></div>
         </div>
 
         <!--[if lt IE 7]>
@@ -53,7 +56,9 @@
         <!-- build:js(.tmp) scripts/coffee.js -->
         <script src="scripts/hello.js"></script>
         <script src="components/d3/d3.js"></script>
+        <script src="components/nvd3/nv.d3.js"></script>
         <script src="scripts/d3-plot.js"></script>
+        <script src="scripts/sparkline-plot.js"></script>
         <!-- endbuild -->
 
         <!-- build:js scripts/plugins.js -->
@@ -71,5 +76,9 @@
         <script src="components/sass-bootstrap/js/bootstrap-collapse.js"></script>
         <script src="components/sass-bootstrap/js/bootstrap-tab.js"></script>
         <!-- endbuild -->
+
+        <script>
+            new Sparkline();
+        </script>
 </body>
 </html>
