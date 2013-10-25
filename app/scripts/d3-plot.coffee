@@ -58,7 +58,7 @@ plotit = (f) ->
       .attr("x", (d, i) -> x(i) + 20)
       .attr("y", (d) -> h - 4)
       .attr("font-family", "sans-serif")
-      .attr("font-size", "12px")
+      .attr("font-size", "14px")
       .attr("fill", "black")
       .attr("fill", f.textcolour)  
 
@@ -103,7 +103,7 @@ plotit = (f) ->
         .attr("x", (d, i) -> x(i + 10) - .5)
         .attr("y", (d) -> h - 4)
         .attr("font-family", "sans-serif")
-        .attr("font-size", "12px")
+        .attr("font-size", "14px")
         .attr("fill", "black")
         .attr("fill", f.textcolour)
         .transition()
