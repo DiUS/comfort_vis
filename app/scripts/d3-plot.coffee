@@ -11,7 +11,7 @@ feeds = [
 plotit = (f) ->
   d3.json '/parsed_' + f.guid + '.json', (data) ->
     w = 10
-    h = 70
+    h = 200
     t = 2000
 
     shortdata = data[0...100]
@@ -27,6 +27,14 @@ plotit = (f) ->
       .domain([min-.1*(max-min), max])
       .rangeRound([0, h])
 
+    # FIXME: why is the y-scale here different to the one above?
+    y2 = d3.scale.linear()
+      .domain([min-.1*(max-min), max])
+      .rangeRound([h, 0])
+    yAxis = d3.svg.axis()
+      .scale(y2)
+      .orient("left")
+
     chart = d3.selectAll("#" + f.name).append("svg")
       .attr("class", "chart")
       .attr("width", w * shortdata.length - 1)
@@ -41,19 +49,24 @@ plotit = (f) ->
       .attr("height", (d) -> y(d.value))
 
     redraw = ->
+      # FIXME: why do i have to remove and readd the vertical axis?
+      d3.select("#" + f.name).select("svg").select("g").remove()
+
       rect = chart.selectAll("rect")
         .data(shortdata, (d) -> d.time)
-      rect.enter().insert("rect", "line")
+      rect.enter()
+        .insert("rect", "line")
         .style({'fill': f.colour})
         .attr("x", (d, i) -> x(i + 10) - .5)
         .attr("y", (d) -> h - y(d.value) - .5)
         .attr("width", w)
         .attr("height", (d) -> y(d.value))
         .transition()
-          .duration(t)
-          .ease('linear')
-          .attr("x", (d, i) -> x(i) - .5)
-      rect.transition()
+        .duration(t)
+        .ease('linear')
+        .attr("x", (d, i) -> x(i) - .5)
+      rect
+        .transition()
         .duration(t)
         .ease('linear')
         .attr("x", (d, i) -> x(i) - .5)
@@ -63,6 +76,12 @@ plotit = (f) ->
         .ease('linear')
         .attr("x", (d, i) -> x(i - 10))
         .remove()
+
+      d3.select("#" + f.name).select("svg")
+        .append("g")
+        .attr("class", "axis")
+        .attr("transform", "translate(998)")
+        .call(yAxis)
 
     setInterval ->
       delta = 10
