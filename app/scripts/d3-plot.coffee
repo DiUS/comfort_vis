@@ -1,24 +1,26 @@
 
 # data = d3.range(45).map(next)
 d3.json '/parsed_c9f7153540a45f3a35ca0a82f2501435.json', (data) ->
-  debugger
-  w = 10
-  h = 80
+  w = 30
+  h = 200
+
+  shortdata = data[0...19]
+  next = 20
 
   x = d3.scale.linear()
     .domain([0, 1])
     .range([0, w])
 
   y = d3.scale.linear()
-    .domain([0, 100])
+    .domain([0, 30])
     .rangeRound([0, h])
 
   chart = d3.selectAll("#demo").append("svg")
     .attr("class", "chart")
-    .attr("width", w * data.length - 1)
+    .attr("width", w * shortdata.length - 1)
     .attr("height", h)
   chart.selectAll("rect")
-    .data(data)
+    .data(shortdata)
     .enter().append("rect")
     .attr("x", (d, i) -> x(i) - .5)
     .attr("y", (d) -> h - y(d.value) - .5)
@@ -27,7 +29,7 @@ d3.json '/parsed_c9f7153540a45f3a35ca0a82f2501435.json', (data) ->
 
   redraw = ->
     rect = chart.selectAll("rect")
-      .data(data, (d) -> d.time)
+      .data(shortdata, (d) -> d.time)
     rect.enter().insert("rect", "line")
       .attr("x", (d, i) -> x(i + 1) - .5)
       .attr("y", (d) -> h - y(d.value) - .5)
@@ -45,7 +47,8 @@ d3.json '/parsed_c9f7153540a45f3a35ca0a82f2501435.json', (data) ->
       .remove()
 
   setInterval ->
-    data.shift()
-    data.push next()
+    shortdata.shift()
+    console.log data[next]
+    shortdata.push data[next++]
     redraw()
   , 1500
