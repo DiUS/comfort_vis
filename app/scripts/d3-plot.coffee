@@ -1,6 +1,46 @@
+feeds =
+  temp:
+    name: 'temperature'
+    guid: 'a82ceb6076288dd0702e499b5c5658fd'
+    xdomain: [0, 1]
+    ydomain: [0, 50]
+  pressure:
+    name: 'pressure'
+    guid: '923235515ca20b8bfcb8201154c57264'
+    xdomain: [0, 1]
+    ydomain: [0, 110000]
+  humidity:
+    name: 'humidity'
+    guid: 'c9f7153540a45f3a35ca0a82f2501435'
+    xdomain: [0, 1]
+    ydomain: [0, 30]
+  light:
+    name: 'light'
+    guid: 'b8f925d50eef3861912f7f1c9b1b98b2'
+    xdomain: [0, 1]
+    ydomain: [0, 160]
+  altitude:
+    name: 'altitude'
+    guid: '0c5639bd4ce7069c04ee1c474b6567f4'
+    xdomain: [0, 1]
+    ydomain: [0, 90]
+  mic:
+    name: 'sound'
+    guid: 'd69395e3dac827c408fb2512dc69f97b'
+    xdomain: [0, 1]
+    ydomain: [0, 15]
+  gas:
+    name: 'gas'
+    guid: '9f0590f33ec088fdfcbbbb4ba0b69d84'
+    xdomain: [0, 1]
+    ydomain: [0, 150]
 
-# data = d3.range(45).map(next)
-d3.json '/parsed_c9f7153540a45f3a35ca0a82f2501435.json', (data) ->
+guid = 'c9f7153540a45f3a35ca0a82f2501435'
+name = 'humidity'
+xdomain = [0, 1]
+ydomain = [0, 30]
+
+d3.json '/parsed_' + guid + '.json', (data) ->
   w = 30
   h = 200
 
@@ -8,14 +48,14 @@ d3.json '/parsed_c9f7153540a45f3a35ca0a82f2501435.json', (data) ->
   next = 20
 
   x = d3.scale.linear()
-    .domain([0, 1])
+    .domain(xdomain)
     .range([0, w])
 
   y = d3.scale.linear()
-    .domain([0, 30])
+    .domain(ydomain)
     .rangeRound([0, h])
 
-  chart = d3.selectAll("#demo").append("svg")
+  chart = d3.selectAll("#" + name).append("svg")
     .attr("class", "chart")
     .attr("width", w * shortdata.length - 1)
     .attr("height", h)
