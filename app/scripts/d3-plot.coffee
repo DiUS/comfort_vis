@@ -1,12 +1,15 @@
 feeds = [
-  { name: 'temperature', guid: 'a82ceb6076288dd0702e499b5c5658fd', colour: 'blue' },
-  { name: 'pressure',    guid: '923235515ca20b8bfcb8201154c57264', colour: 'green' },
-  { name: 'humidity',    guid: 'c9f7153540a45f3a35ca0a82f2501435', colour: 'red' },
-  { name: 'light',       guid: 'b8f925d50eef3861912f7f1c9b1b98b2', colour: 'orange' },
-  { name: 'altitude',    guid: '0c5639bd4ce7069c04ee1c474b6567f4', colour: 'purple' },
-  { name: 'sound',       guid: 'd69395e3dac827c408fb2512dc69f97b', colour: 'black' },
-  { name: 'gas',         guid: '9f0590f33ec088fdfcbbbb4ba0b69d84', colour: 'pink' }
+  { name: 'temperature', guid: 'a82ceb6076288dd0702e499b5c5658fd', colour: 'blue', textcolour: 'white' },
+  { name: 'pressure',    guid: '923235515ca20b8bfcb8201154c57264', colour: 'green', textcolour: 'white' },
+  { name: 'humidity',    guid: 'c9f7153540a45f3a35ca0a82f2501435', colour: 'red', textcolour: 'white' },
+  { name: 'light',       guid: 'b8f925d50eef3861912f7f1c9b1b98b2', colour: 'orange', textcolour: 'black' },
+  { name: 'altitude',    guid: '0c5639bd4ce7069c04ee1c474b6567f4', colour: 'purple', textcolour: 'white' },
+  { name: 'sound',       guid: 'd69395e3dac827c408fb2512dc69f97b', colour: 'black', textcolour: 'white' },
+  { name: 'gas',         guid: '9f0590f33ec088fdfcbbbb4ba0b69d84', colour: 'pink', textcolour: 'black' }
 ]
+
+dateAndTime = (date) ->
+  moment(date).format("HH:mm:ss")
 
 plotit = (f) ->
   d3.json '/parsed_' + f.guid + '.json', (data) ->
@@ -47,6 +50,17 @@ plotit = (f) ->
       .attr("y", (d) -> h - y(d.value) - .5)
       .attr("width", w)
       .attr("height", (d) -> y(d.value))
+    chart.selectAll("text")
+      .data(shortdata)
+      .enter().append("text")
+      .text((d,i) -> if (i%10 == 0) then dateAndTime(new Date(Number(d.time)*1000)) else "")
+      #.attr("text-anchor", "middle")
+      .attr("x", (d, i) -> x(i) + 20)
+      .attr("y", (d) -> h - 4)
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "12px")
+      .attr("fill", "black")
+      .attr("fill", f.textcolour)  
 
     d3.select("#" + f.name).select("svg")
       .append("g")
@@ -70,18 +84,43 @@ plotit = (f) ->
         .transition()
         .duration(t)
         .ease('linear')
-        .attr("x", (d, i) -> x(i) - .5)
-      rect
-        .transition()
+        .attr("x", (d, i) -> x(i) - .5)                
+      rect.transition()
         .duration(t)
         .ease('linear')
-        .attr("x", (d, i) -> x(i) - .5)
+        .attr("x", (d, i) -> x(i) - .5)     
       rect.exit()
         .transition()
         .duration(t)
         .ease('linear')
         .attr("x", (d, i) -> x(i - 10))
         .remove()
+      labels=chart.selectAll("text")
+        .data(shortdata, (d) -> d.time)
+      labels.enter()
+        .append("text")
+        .text((d,i) -> if (i%10 == 0) then dateAndTime(new Date(Number(d.time)*1000)) else "")
+        .attr("x", (d, i) -> x(i + 10) - .5)
+        .attr("y", (d) -> h - 4)
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "12px")
+        .attr("fill", "black")
+        .attr("fill", f.textcolour)
+        .transition()
+          .duration(t)
+          .ease('linear')
+          .attr("x", w - 20)   
+      labels.transition()
+        .duration(t)
+        .ease('linear')
+        .attr("x", (d, i) -> x(i) - .5)
+      labels.exit()
+        .transition()
+        .duration(t)
+        .ease('linear')
+        .attr("x", (d, i) -> x(i - 10))
+        .remove()             
+      
 
       d3.select("#" + f.name).select("svg")
         .append("g")

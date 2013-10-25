@@ -13,17 +13,10 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
     fill: steelblue;
 }
 
-.axis path,
-.axis line {
-    fill: none;
-    stroke: black;
-    shape-rendering: crispEdges;
+#sparkline {
+  margin-top: 30px;
 }
 
-.axis text {
-    font-family: sans-serif;
-    font-size: 12px;
-}
 
 #sparkline {
   margin-top: 30px;
