@@ -10,11 +10,12 @@ feeds = [
 
 plotit = (f) ->
   d3.json '/parsed_' + f.guid + '.json', (data) ->
-    w = 30
+    w = 10
     h = 90
+    t = 2000
 
-    shortdata = data[0...19]
-    next = 20
+    shortdata = data[0...100]
+    next = 100
 
     x = d3.scale.linear()
       .domain(f.xdomain)
@@ -42,25 +43,31 @@ plotit = (f) ->
         .data(shortdata, (d) -> d.time)
       rect.enter().insert("rect", "line")
         .style({'fill': f.colour})
-        .attr("x", (d, i) -> x(i + 1) - .5)
+        .attr("x", (d, i) -> x(i + 10) - .5)
         .attr("y", (d) -> h - y(d.value) - .5)
         .attr("width", w)
         .attr("height", (d) -> y(d.value))
         .transition()
-        .duration(1000)
-        .attr("x", (d, i) -> x(i) - .5)
+          .duration(t)
+          .ease('linear')
+          .attr("x", (d, i) -> x(i) - .5)
       rect.transition()
-        .duration(1000)
+        .duration(t)
+        .ease('linear')
         .attr("x", (d, i) -> x(i) - .5)
-      rect.exit().transition()
-        .duration(1000)
-        .attr("x", (d, i) -> x(i - 1) - .5)
+      rect.exit()
+        .transition()
+        .duration(t)
+        .ease('linear')
+        .attr("x", (d, i) -> x(i - 10))
         .remove()
 
     setInterval ->
-      shortdata.shift()
-      shortdata.push data[next++]
+      delta = 10
+      shortdata.splice 0,delta
+      shortdata = shortdata.concat data[next...next+delta]
+      next += delta
       redraw()
-    , 1500
+    , t+100
 
 plotit f for f in feeds
