@@ -1,28 +1,30 @@
 feeds = [
-  { name: 'temperature', guid: 'a82ceb6076288dd0702e499b5c5658fd', xdomain: [0, 1], ydomain: [0, 50], colour: 'blue' },
-  { name: 'pressure',    guid: '923235515ca20b8bfcb8201154c57264', xdomain: [0, 1], ydomain: [0, 110000], colour: 'green' },
-  { name: 'humidity',    guid: 'c9f7153540a45f3a35ca0a82f2501435', xdomain: [0, 1], ydomain: [0, 30], colour: 'red' }, 
-  { name: 'light',       guid: 'b8f925d50eef3861912f7f1c9b1b98b2', xdomain: [0, 1], ydomain: [0, 160], colour: 'orange' },
-  { name: 'altitude',    guid: '0c5639bd4ce7069c04ee1c474b6567f4', xdomain: [0, 1], ydomain: [0, 90], colour: 'purple' },
-  { name: 'sound',       guid: 'd69395e3dac827c408fb2512dc69f97b', xdomain: [0, 1], ydomain: [0, 15], colour: 'black' },
-  { name: 'gas',         guid: '9f0590f33ec088fdfcbbbb4ba0b69d84', xdomain: [0, 1], ydomain: [0, 150], colour: 'pink' }
+  { name: 'temperature', guid: 'a82ceb6076288dd0702e499b5c5658fd', colour: 'blue' },
+  { name: 'pressure',    guid: '923235515ca20b8bfcb8201154c57264', colour: 'green' },
+  { name: 'humidity',    guid: 'c9f7153540a45f3a35ca0a82f2501435', colour: 'red' },
+  { name: 'light',       guid: 'b8f925d50eef3861912f7f1c9b1b98b2', colour: 'orange' },
+  { name: 'altitude',    guid: '0c5639bd4ce7069c04ee1c474b6567f4', colour: 'purple' },
+  { name: 'sound',       guid: 'd69395e3dac827c408fb2512dc69f97b', colour: 'black' },
+  { name: 'gas',         guid: '9f0590f33ec088fdfcbbbb4ba0b69d84', colour: 'pink' }
 ]
 
 plotit = (f) ->
   d3.json '/parsed_' + f.guid + '.json', (data) ->
     w = 10
-    h = 90
+    h = 70
     t = 2000
 
     shortdata = data[0...100]
     next = 100
 
     x = d3.scale.linear()
-      .domain(f.xdomain)
+      .domain([0, 1])
       .range([0, w])
 
+    min = d3.min((d.value for d in data))
+    max = d3.max((d.value for d in data))
     y = d3.scale.linear()
-      .domain(f.ydomain)
+      .domain([min-.1*(max-min), max])
       .rangeRound([0, h])
 
     chart = d3.selectAll("#" + f.name).append("svg")
