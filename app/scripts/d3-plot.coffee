@@ -48,6 +48,12 @@ plotit = (f) ->
       .attr("width", w)
       .attr("height", (d) -> y(d.value))
 
+    d3.select("#" + f.name).select("svg")
+      .append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(998)")
+      .call(yAxis)
+
     redraw = ->
       # FIXME: why do i have to remove and readd the vertical axis?
       d3.select("#" + f.name).select("svg").select("g").remove()
