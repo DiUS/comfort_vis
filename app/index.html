@@ -18,22 +18,45 @@
     </head>
     <body>
         <div class="container">
-            <h4>Temperature</h1>
-            <div id="temperature"></div>
-            <h4>Pressure</h4>
-            <div id="pressure"></div>
-            <h4>Humidity</h4>
-            <div id="humidity"></div>
-            <h4>Light</h4>
-            <div id="light"></div>
-            <h4>Altitude</h4>
-            <div id="altitude"></div>
-            <h4>Sound</h4>
-            <div id="sound"></div>
-            <h4>Gas</h4>
-            <div id="gas"></div>
+            <div class="row">
+                <div class="span12">
+                    <div>
+                        <h4>Temperature</h1>
+                        <div id="temperature"></div>
+                        <h4>Pressure</h4>
+                        <div id="pressure"></div>
+                        <h4>Humidity</h4>
+                        <div id="humidity"></div>
+                        <h4>Light</h4>
+                        <div id="light"></div>
+                        <h4>Altitude</h4>
+                        <div id="altitude"></div>
+                        <h4>Sound</h4>
+                        <div id="sound"></div>
+                        <h4>Gas</h4>
+                        <div id="gas"></div>
+                    </div>
+                </div>
+            </div>
 
-            <div id="sparkline"><svg></svg></div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Temperature</h1>
+                    <div id="nvd3_temperature"><svg></svg></div>
+                    <h4>Pressure</h4>
+                    <div id="nvd3_pressure"><svg></svg></div>
+                    <h4>Humidity</h4>
+                    <div id="nvd3_humidity"><svg></svg></div>
+                    <h4>Light</h4>
+                    <div id="nvd3_light"><svg></svg></div>
+                    <h4>Altitude</h4>
+                    <div id="nvd3_altitude"><svg></svg></div>
+                    <h4>Sound</h4>
+                    <div id="nvd3_sound"><svg></svg></div>
+                    <h4>Gas</h4>
+                    <div id="nvd3_gas"><svg></svg></div>
+                </div>
+            </div>
         </div>
 
         <!--[if lt IE 7]>
@@ -82,7 +105,7 @@
         <!-- endbuild -->
 
         <script>
-            new Sparkline();
+            new Sparkline().run();
         </script>
 </body>
 </html>
