@@ -56,7 +56,7 @@ plotit = (f) ->
       .text((d,i) -> if (i%10 == 0) then dateAndTime(new Date(Number(d.time)*1000)) else "")
       #.attr("text-anchor", "middle")
       .attr("x", (d, i) -> x(i) + 20)
-      .attr("y", (d) -> h - 4)
+      .attr("y", (d) -> h - 15)
       .attr("font-family", "sans-serif")
       .attr("font-size", "14px")
       .attr("fill", "black")
@@ -65,7 +65,7 @@ plotit = (f) ->
     d3.select("#" + f.name).select("svg")
       .append("g")
       .attr("class", "axis")
-      .attr("transform", "translate(998)")
+      .attr("transform", "translate(939)")
       .call(yAxis)
 
     redraw = ->
@@ -101,7 +101,7 @@ plotit = (f) ->
         .append("text")
         .text((d,i) -> if (i%10 == 0) then dateAndTime(new Date(Number(d.time)*1000)) else "")
         .attr("x", (d, i) -> x(i + 10) - .5)
-        .attr("y", (d) -> h - 4)
+        .attr("y", (d) -> h - 15)
         .attr("font-family", "sans-serif")
         .attr("font-size", "14px")
         .attr("fill", "black")
@@ -125,7 +125,7 @@ plotit = (f) ->
       d3.select("#" + f.name).select("svg")
         .append("g")
         .attr("class", "axis")
-        .attr("transform", "translate(998)")
+        .attr("transform", "translate(939)")
         .call(yAxis)
 
     setInterval ->
